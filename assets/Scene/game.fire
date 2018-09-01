@@ -82,7 +82,7 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 17
+        "__id__": 18
       }
     ],
     "_prefab": null,
@@ -587,6 +587,9 @@
     "label": {
       "__id__": 12
     },
+    "shop": {
+      "__id__": 14
+    },
     "_id": "abhZpxBx5KJJZ4Lei9wAMS"
   },
   {
@@ -603,7 +606,11 @@
     ],
     "_active": false,
     "_level": 1,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 17
+      }
+    ],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
@@ -738,6 +745,16 @@
     "_state": 0,
     "_atlas": null,
     "_id": "ffGS/ys69GvoBFFML1c9yE"
+  },
+  {
+    "__type__": "fba7d8dWBdMWKhcT7ceuSrW",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 14
+    },
+    "_enabled": true,
+    "_id": "8dzEauFpBK6oAKrKOKhw8C"
   },
   {
     "__type__": "cc.Canvas",
