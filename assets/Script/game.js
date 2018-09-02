@@ -2,9 +2,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        label: {
+        loading: {
             default: null,
-            type: cc.Label
+            type: cc.Node
         },
         shop: {
             default: null,
@@ -15,15 +15,14 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        this.label.string = '点击';
+        this.loading.active = true;
     },
     start () {
-        this.label.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+        /*this.label.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             console.log('Mouse down');
             this.shop.active = !this.shop.active;
-        }, this);
+        }, this);*/
     },
-
     // called every frame
     update: function (dt) {
 
