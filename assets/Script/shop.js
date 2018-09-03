@@ -1,10 +1,7 @@
 let Item = cc.Class({
     name: 'CupCouponItem',
     properties: {
-        id: {
-            default: '',
-            type: cc.String
-        },
+        id: '',
         isHot: true,// 是否热销
         title: '', // 券标题
         couponIcon: cc.SpriteFrame, // 券图标
@@ -30,7 +27,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        console.log('shop onLoad...')
+
     },
 
     start () {
