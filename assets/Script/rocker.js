@@ -1,12 +1,10 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+// 移动方向
+let MOVE_PATH = cc.Enum({
+    top: 0,
+    right: 1,
+    down: 2,
+    left: 3
+});
 
 cc.Class({
     extends: cc.Component,
@@ -18,6 +16,13 @@ cc.Class({
         isMove: {
             default: false,
             visible: false
+        },
+        /**
+         * 移动方向
+         */
+        movePath: {
+            default: null,
+            type: MOVE_PATH
         },
         /**
          * 游戏地图
@@ -32,7 +37,15 @@ cc.Class({
         rocker: {
             default: null,
             type: cc.Node
-        }
+        },
+        /**
+         * 移动速度
+         */
+        moveSpeed: 200,
+        /**
+         * 移动坐标
+         */
+        moveXY: cc.v2()
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -41,54 +54,45 @@ cc.Class({
 
     start () {
         /*相应屏幕touch事件的消息有：START(开始点击下去),MOVED(触摸移动),ENDED(触摸在节点范围内弹起),CANCEL(节点范围外弹起)*/
-        var movesBg = new Object();
-        var ix = null, iy = null;
-        var timeTank = null;
-        var timeTankBol = true;
-        var isTimeTankX = null, isTimeTankY = null;
-        var my_tank_degree = null;
-        var my_tank_degree_i = 0;
-        var moves = new Object();
-        clearInterval(timeTank);
+        let moves = cc.v2();
+        let _this = this;
+        /**
+         * 触摸移动
+         */
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (e) {
+            this.isMove = true;
+
             /*操控杆区域的部分*/
-            var _this = this;
-            var w_point = e.getLocation();
+            let w_point = e.getLocation();
             /*获取触摸小白点的位置*/
-            var ctl_lt_half = this.rocker.width * 0.5;
+            let ctl_lt_half = this.rocker.width * 0.5;
             /*获取操控杆区域的一半宽度，因为宽高相等，取其中一个即可*/
             /*小白点的边界*/
             /*小白点的事件*/
-            var dst = this.node.parent.convertToNodeSpaceAR(w_point);
+            let dst = this.node.parent.convertToNodeSpaceAR(w_point);
             /*小白点父节点的起始位置*/
-            var xie = Math.sqrt(Math.pow(dst.x, 2) + Math.pow(dst.y, 2));
-            /*var len = cc.pLength(dir);*/
+            let xie = Math.sqrt(Math.pow(dst.x, 2) + Math.pow(dst.y, 2));
             /*移动的膜*/
-            var r = Math.atan2(dst.y, dst.x);
+            let r = Math.atan2(dst.y, dst.x);
             /*求出这个距离对应的弧度*/
-            var degree = r * 180 / Math.PI;
-            /*求出旋转角度*/
+            let degree = r * 180 / Math.PI;
 
+            /*求出旋转角度*/
             degree = 90 - parseInt(degree);
             if (degree >= -45 && degree < 45) {
-                my_tank_degree = 0;
-                my_tank_degree_i = 0;
+                _this.movePath = MOVE_PATH.top;
             }
             if (degree >= 45 && degree < 135) {
-                my_tank_degree = 90;
-                my_tank_degree_i = 1;
+                _this.movePath = MOVE_PATH.right;
             }
             if (degree >= 135 && degree < 225) {
-                my_tank_degree = 180;
-                my_tank_degree_i = 2;
+                _this.movePath = MOVE_PATH.down;
             }
             if (degree >= 225 && degree <= 270) {
-                my_tank_degree = 270;
-                my_tank_degree_i = 3;
+                _this.movePath = MOVE_PATH.left;
             }
             if (degree >= -90 && degree < -45) {
-                my_tank_degree = 270;
-                my_tank_degree_i = 3;
+                _this.movePath = MOVE_PATH.left;
             }
 
             /*判断距离*/
@@ -99,67 +103,39 @@ cc.Class({
                 moves.x = ctl_lt_half * Math.cos(r);
                 moves.y = ctl_lt_half * Math.sin(r);
             }
-            if (isTimeTankX != null || isTimeTankY != null) {
-                if (isTimeTankX != Math.cos(-r) || isTimeTankY != Math.sin(-r)) {
-                    timeTankBol = true;
-                }
-            }
-
-            if (timeTankBol) {
-                timeTankBol = false;
-                clearInterval(timeTank);
-                timeTank = setInterval(function () {
-                    isTimeTankX = Math.cos(-r);
-                    isTimeTankY = Math.sin(-r);
-                    if (degree >= -45 && degree < 45) {
-                        ix += 0;
-                        iy += 5;
-                    }
-                    if (degree >= 45 && degree < 135) {
-                        ix += 5;
-                        iy += 0;
-                    }
-                    if (degree >= 135 && degree < 225) {
-                        ix += 0;
-                        iy -= 5;
-                    }
-                    if (degree >= 225 && degree <= 270) {
-                        ix -= 5;
-                        iy += 0;
-                    }
-                    if (degree >= -90 && degree < -45) {
-                        ix -= 5;
-                        iy += 0;
-                    }
-                    movesBg.x = -ix;
-                    movesBg.y = -iy;
-                    _this.gameMap.setPosition(movesBg);
-                }, 10);
-            }
 
             this.node.setPosition(moves);
-
         }.bind(this), this);
 
+        /**
+         * 触摸结束
+         */
         this.node.on(cc.Node.EventType.TOUCH_END, (e) => {
             this.node.setPosition(0, 0);
-            clearInterval(timeTank);
-            timeTankBol = true;
             this.isMove = false;
         }, this);
 
+        /**
+         * 触摸取消
+         */
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, (e) => {
             this.node.setPosition(0, 0);
-            clearInterval(timeTank);
-            timeTankBol = true;
             this.isMove = false;
         }, this);
     },
 
     update (dt) {
         if (this.isMove) {
-            // console.log(this.gameMap);
-            // this.gameMap.setPosition(this.gameMap.x * dt, this.gameMap.y * dt);
+            if (this.movePath == MOVE_PATH.top) {
+                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y - (this.moveSpeed * dt));
+            } else if (this.movePath == MOVE_PATH.right) {
+                this.moveXY = cc.v2(this.gameMap.x - (this.moveSpeed * dt), this.gameMap.y);
+            } else if (this.movePath == MOVE_PATH.down) {
+                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y + (this.moveSpeed * dt));
+            } else if (this.movePath == MOVE_PATH.left) {
+                this.moveXY = cc.v2(this.gameMap.x + (this.moveSpeed * dt), this.gameMap.y);
+            }
+            this.gameMap.setPosition(this.moveXY);
         }
     },
 });

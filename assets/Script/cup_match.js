@@ -1,3 +1,5 @@
+let base = require('base').base;
+
 let Item = cc.Class({
     name: 'Item',
     properties: {
@@ -32,15 +34,21 @@ cc.Class({
          */
         items: {
             default: [],
-            type: Item
+            type: Item,
+            visible: false
         }
     },
-
-    // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
     start () {
+        /**
+         * 获取头像
+         */
+        base.getAvatar((texture) => {
+            this.node.getChildByName('pic').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture)
+        });
+
         for (let i = 0; i < 10; ++i) {
             let item = cc.instantiate(this.prefab);
             // let data = this.items[i];
@@ -51,7 +59,6 @@ cc.Class({
                 cupMatchDetailPage: this.cupMatchDetailPage
             });
         }
-        this.scrollView.scrollToLeft();
     },
 
     // update (dt) {},

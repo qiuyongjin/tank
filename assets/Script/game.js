@@ -15,7 +15,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        this.loading.active = true;
+        // this.loading.active = true;
     },
     start () {
         /*this.label.node.on(cc.Node.EventType.TOUCH_START, function (event) {
