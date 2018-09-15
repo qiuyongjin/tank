@@ -11,13 +11,6 @@ cc.Class({
 
     properties: {
         /**
-         * 是否在移动
-         */
-        isMove: {
-            default: false,
-            visible: false
-        },
-        /**
          * 移动方向
          */
         movePath: {
@@ -45,7 +38,14 @@ cc.Class({
         /**
          * 移动坐标
          */
-        moveXY: cc.v2()
+        moveXY: cc.v2(),
+        /**
+         * 坦克
+         */
+        tank: {
+            default: null,
+            type: cc.Prefab
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -53,6 +53,8 @@ cc.Class({
     // onLoad () {},
 
     start () {
+        let tank = cc.instantiate(this.tank).getComponent('tank');
+
         /*相应屏幕touch事件的消息有：START(开始点击下去),MOVED(触摸移动),ENDED(触摸在节点范围内弹起),CANCEL(节点范围外弹起)*/
         let moves = cc.v2();
         let _this = this;
@@ -60,7 +62,7 @@ cc.Class({
          * 触摸移动
          */
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (e) {
-            this.isMove = true;
+            Global.tank.isMove = true;
 
             /*操控杆区域的部分*/
             let w_point = e.getLocation();
@@ -95,6 +97,15 @@ cc.Class({
                 _this.movePath = MOVE_PATH.left;
             }
 
+            // 设置坦克方向
+            tank.setMovePath(_this.movePath);
+
+            // 更新坦克全局属性
+            if (Global.tank.movePath != _this.movePath) {
+                Global.tank.isCollision = false;
+            }
+            Global.tank.movePath = _this.movePath;
+
             /*判断距离*/
             if (xie < ctl_lt_half) {
                 moves.x = dst.x;
@@ -112,7 +123,7 @@ cc.Class({
          */
         this.node.on(cc.Node.EventType.TOUCH_END, (e) => {
             this.node.setPosition(0, 0);
-            this.isMove = false;
+            Global.tank.isMove = false;
         }, this);
 
         /**
@@ -120,12 +131,48 @@ cc.Class({
          */
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, (e) => {
             this.node.setPosition(0, 0);
-            this.isMove = false;
+            Global.tank.isMove = false;
+        }, this);
+        // 初始化键盘输入监听
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, (event) => {
+            switch (event.keyCode) {
+                case cc.macro.KEY.w:
+                    this.movePath = MOVE_PATH.top;
+                    break;
+                case cc.macro.KEY.d:
+                    this.movePath = MOVE_PATH.right;
+                    break;
+                case cc.macro.KEY.s:
+                    this.movePath = MOVE_PATH.down;
+                    break;
+                case cc.macro.KEY.a:
+                    this.movePath = MOVE_PATH.left;
+                    break;
+            }
+
+            Global.tank.isMove = true;
+            // 设置坦克方向
+            tank.setMovePath(_this.movePath);
+
+            // 更新坦克全局属性
+            if (Global.tank.movePath != _this.movePath) {
+                Global.tank.isCollision = false;
+            }
+            Global.tank.movePath = _this.movePath;
+        }, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, (event) => {
+            switch (event.keyCode) {
+                case cc.macro.KEY.w:
+                case cc.macro.KEY.d:
+                case cc.macro.KEY.s:
+                case cc.macro.KEY.a:
+                    Global.tank.isMove = false;
+                    break;
+            }
         }, this);
     },
-
     update (dt) {
-        if (this.isMove) {
+        if (Global.tank.isMove && !Global.tank.isCollision) {
             if (this.movePath == MOVE_PATH.top) {
                 this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y - (this.moveSpeed * dt));
             } else if (this.movePath == MOVE_PATH.right) {
