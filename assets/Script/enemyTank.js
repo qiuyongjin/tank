@@ -36,6 +36,13 @@ cc.Class({
          * 坦克贴图 上、下、左、右
          */
         tankTexture: [cc.SpriteFrame],
+        /**
+         * 子弹
+         */
+        bullet: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     // onLoad () {},
@@ -51,6 +58,8 @@ cc.Class({
         setTimeout(() => {
             this.ctrlMove();
         }, 5000);
+
+        this.launchBullet();
     },
     onCollisionEnter (other, self) {
         // console.log('坦克移动方向：' + Global.tank.movePath);
@@ -75,11 +84,8 @@ cc.Class({
      * 更新坦克方向贴图
      */
     updateTexture () {
-        try {
+        if (this.tankNode)
             this.tankNode.spriteFrame = this.tankTexture[this.movePath];
-        }
-        catch (error) {
-        }
     },
     /**
      * 生成随机数
@@ -111,6 +117,23 @@ cc.Class({
             this.movePath = this.controlPath(this.movePath);
             this.updateTexture();
             this.ctrlMove();
+        }, num);
+    },
+    /**
+     * 发射子弹
+     */
+    launchBullet () {
+        if (!this.bullet) return false;
+        let newBullet = cc.instantiate(this.bullet);
+        newBullet.getComponent('enemyBullet').init({
+            movePath: this.movePath,
+            tank: this.node,
+            speed: this.moveSpeed
+        });
+        this.node.parent.addChild(newBullet);
+        let num = Global.rd(1000, 3000);
+        setTimeout(() => {
+            this.launchBullet();
         }, num);
     },
     update (dt) {

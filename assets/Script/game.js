@@ -71,7 +71,7 @@ cc.Class({
         let si = setInterval(() => {
             this.newEnemyTank();
             ++num;
-            if (num >= 10)
+            if (num >= 6)
                 clearInterval(si);
         }, 300);
     },

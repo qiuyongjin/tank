@@ -40,9 +40,8 @@ cc.Class({
         // 设置方向
         this.movePath = data.movePath;
         // 设置子弹偏移量
-        let position = data.position;
+        let position = data.tank.getPosition();
 
-        // return false;
         if (this.movePath == MOVE_PATH.top) {
             position.y = position.y + 40;
         } else if (this.movePath == MOVE_PATH.right) {

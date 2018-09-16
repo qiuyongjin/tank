@@ -28,7 +28,7 @@
       false,
       true,
       true,
-      false,
+      true,
       null,
       true
     ],
@@ -59,7 +59,7 @@
     "bullet",
     "game",
     "enemyTank",
-    "wall",
+    "enemyBullet",
     "tank"
   ],
   "simulator-orientation": false,
