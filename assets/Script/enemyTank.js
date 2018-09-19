@@ -47,8 +47,9 @@ cc.Class({
 
     // onLoad () {},
     init (data) {
-        this.movePath = data.movePath;
+        this.movePath = MOVE_PATH.down;
         this.moveSpeed = data.moveSpeed;
+        this.node.setPosition(data.position);
     },
     start () {
         let manager = cc.director.getCollisionManager();

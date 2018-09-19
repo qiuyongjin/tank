@@ -69,7 +69,7 @@ cc.Class({
 
         let num = 0;
         let si = setInterval(() => {
-            this.newEnemyTank();
+            this.newEnemyTank(num);
             ++num;
             if (num >= 6)
                 clearInterval(si);
@@ -78,12 +78,21 @@ cc.Class({
     /**
      * 生产敌方坦克
      */
-    newEnemyTank () {
+    newEnemyTank (index) {
+        let position = [
+            cc.v2(-1186, 1389),
+            cc.v2(-711, 1389),
+            cc.v2(-237, 1389),
+            cc.v2(238, 1389),
+            cc.v2(712, 1389),
+            cc.v2(1187, 1389)
+        ];
         let eTank = cc.instantiate(this.enemyTank);
         eTank.getComponent('enemyTank').init({
-            movePath: Math.floor(Math.random() * 4),
-            moveSpeed: 50 + Math.floor(Math.random() * 200)
+            moveSpeed: 50 + Math.floor(Math.random() * 200),
+            position: position[index]
         });
+
         this.node.addChild(eTank);
     },
     update: function (dt) {
