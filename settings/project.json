@@ -14,6 +14,10 @@
       false,
       false,
       true,
+      true,
+      null,
+      null,
+      true,
       true
     ],
     [
@@ -30,6 +34,8 @@
       true,
       true,
       null,
+      true,
+      true,
       true
     ],
     [
@@ -37,6 +43,8 @@
       false,
       true,
       false,
+      false,
+      true,
       true,
       true
     ],
@@ -46,7 +54,40 @@
       true,
       true,
       true,
+      false,
+      true,
+      true,
       true
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
     ]
   ],
   "design-resolution-height": 640,
@@ -60,7 +101,10 @@
     "game",
     "enemyTank",
     "enemyBullet",
-    "tank"
+    "tank",
+    "IronWall",
+    "brickWall",
+    "box"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {
@@ -68,6 +112,5 @@
     "width": 960
   },
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }

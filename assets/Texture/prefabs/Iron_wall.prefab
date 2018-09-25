@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "enemyBullet",
+    "_name": "Iron_wall",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -24,26 +24,23 @@
       },
       {
         "__id__": 3
-      },
-      {
-        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 0,
-      "b": 0,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11,
-      "height": 15
+      "width": 80,
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -52,8 +49,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 44,
+      "x": -236,
+      "y": 50,
       "z": 0
     },
     "_scale": {
@@ -74,7 +71,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "_zIndex": 0,
-    "groupIndex": 4,
+    "groupIndex": 6,
     "_id": ""
   },
   {
@@ -88,7 +85,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "31bc895a-c003-4566-a9f3-2e54ae1c17dc"
+      "__uuid__": "c397e211-4a62-493f-a9d2-9fe80cc040fe"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -103,7 +100,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "5d+7SYFFZFCZRjyGbWN31G"
+    "_id": "57kY6wvO5BubmTqabR1u/p"
   },
   {
     "__type__": "cc.BoxCollider",
@@ -113,7 +110,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "tag": 7,
+    "tag": 8,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -121,22 +118,10 @@
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 11,
-      "height": 15
+      "width": 80,
+      "height": 80
     },
-    "_id": "ccRocCplFM/7FmciRxkDYF"
-  },
-  {
-    "__type__": "cb10dfO9UZGLawh81sa1nj/",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "movePath": 0,
-    "speed": 200,
-    "_id": "ffXxuFEkBHEbCLZdNmBzCP"
+    "_id": "57BDbzMddInb+T0c7DGVkg"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -144,9 +129,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "0a4af742-481b-49a9-806e-0db5b91b3589"
+      "__uuid__": "fa73a72a-1c97-4a41-bc1a-af59251706a4"
     },
-    "fileId": "f5RyPoGW1AQ6QT1f49fu5x",
+    "fileId": "beBTErYPhHoLSAoKzvgcKr",
     "sync": false
   }
 ]

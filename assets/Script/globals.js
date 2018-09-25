@@ -8,11 +8,21 @@ window.Global = {
         phone: '15218288177'
     },
     /**
-     * 坦克全局属性
+     * 得分，杀死坦克数量
+     */
+    score: 0,
+    /**
+     * 地图
+     */
+    gameMap: cc.Node,
+    /**
+     * 我方坦克全局属性
      */
     tank: {
         isMove: false,// 是否在移动
+        speed: 200, // 移动速度
         movePath: 0, // 移动路径
+        movablePath: [0, 1, 2, 3], // 坦克可移动都方向，默认全部可走
         // 是否发生碰撞
         isCollision: false,
     },
@@ -36,6 +46,9 @@ window.Global = {
             case 'enemyTank':
                 result = 1;
                 break;
+            case 'enemyBullet':
+                result = 2;
+                break;
         }
         return result;
     },
@@ -45,5 +58,13 @@ window.Global = {
     rd (n, m) {
         let c = m - n + 1;
         return Math.floor(Math.random() * c + n);
+    }
+};
+
+
+Array.prototype.remove = function (val) {
+    let index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
     }
 };

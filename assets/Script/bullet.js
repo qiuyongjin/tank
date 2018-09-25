@@ -26,10 +26,31 @@ cc.Class({
         /**
          * 子弹速度
          */
-        speed: 200
+        speed: 200,
+        /**
+         * 子弹射程
+         */
+        range: 300,
+        /**
+         * 子弹距离
+         */
+        distance: 0,
+        /**
+         * 击中音效
+         */
+        hitSound: {
+            default: null,
+            type: cc.AudioSource
+        },
+        enemyTank: {
+            default: null,
+            type: cc.Prefab
+        }
     },
 
-    // onLoad () {},
+    onLoad () {
+        this.hitSound = this.getComponent(cc.AudioSource);
+    },
 
     start () {
         let manager = cc.director.getCollisionManager();
@@ -60,20 +81,32 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter: function (other, self) {
-        this.node.destroy();
-        if (other.node.name == 'enemyTank') {
+        this.node.active = false;
+        this.hitSound.play();
+        if ([9].includes(other.tag)) {
             other.node.destroy();
         }
+
+        setTimeout(() => {
+            this.node.destroy();
+        }, 1000);
     },
     update (dt) {
+        let s = this.speed * dt;
+        this.distance += s;
+        if (this.distance > this.range) {
+            this.node.destroy();
+            return false;
+        }
+
         if (this.movePath == MOVE_PATH.top) {
-            this.node.y += this.speed * dt;
+            this.node.y += s;
         } else if (this.movePath == MOVE_PATH.right) {
-            this.node.x += this.speed * dt;
+            this.node.x += s;
         } else if (this.movePath == MOVE_PATH.down) {
-            this.node.y -= this.speed * dt;
+            this.node.y -= s;
         } else if (this.movePath == MOVE_PATH.left) {
-            this.node.x -= this.speed * dt;
+            this.node.x -= s;
         }
     },
 });

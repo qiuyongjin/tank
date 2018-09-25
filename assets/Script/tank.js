@@ -12,6 +12,10 @@ cc.Class({
 
     properties: {
         /**
+         * 坦克等级
+         */
+        level: 1,
+        /**
          * 移动方向
          */
         movePath: {
@@ -22,26 +26,17 @@ cc.Class({
          * 坦克贴图 上、下、左、右
          */
         tankTexture: [cc.SpriteFrame],
-        /**
-         * 碰撞类型
-         * 0：墙  1：敌方坦克
-         */
-        collisionType: null,
-        tankNode: {
-            default: null,
-            type: cc.Sprite,
-            visible: false
-        }
     },
 
     onLoad () {
         thisTank = this;
-        this.tankNode = this.getComponent(cc.Sprite);
+        this.animCtrl = this.node.getComponent(cc.Animation);
     },
 
     start () {
         let manager = cc.director.getCollisionManager();
         manager.enabled = true;
+        // manager.enabledDebugDraw = true;
     },
     /**
      * 当碰撞产生的时候调用
@@ -49,23 +44,21 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionEnter: function (other, self) {
-        // 设置坦克碰到什么障碍
-        this.collisionType = Global.collisionType(other.node.name);
+        let otherTag = other.tag;
+        let selfTag = self.tag;
 
-        if (Global.tank.isMove) {
-            Global.tank.isCollision = true;
-
-            /*if (Global.tank.movePath == MOVE_PATH.top) {
-                this.moveXY = cc.v2(self.node.x, self.node.y + 10);
-            } else if (Global.tank.movePath == MOVE_PATH.right) {
-                this.moveXY = cc.v2(self.node.x + 10, self.node.y);
-            } else if (Global.tank.movePath == MOVE_PATH.down) {
-                this.moveXY = cc.v2(self.node.x, self.node.y - 10);
-            } else if (Global.tank.movePath == MOVE_PATH.left) {
-                this.moveXY = cc.v2(self.node.x - 10, self.node.y);
-            }
-            self.node.setPosition(this.moveXY);*/
+        if ([0, 1, 2, 3, 8, 9].includes(otherTag)) {
+            // 40,41,42,43，禁止对应行走的方向
+            Global.tank.movablePath.remove(selfTag - 40);
         }
+        else if (otherTag == 10) {
+            // 捡到宝箱
+            other.node.destroy();
+            this.upgradeTank();
+        }
+
+        // 播放动画
+        // this.animCtrl.play("tank");
     },
     /**
      * 当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用
@@ -73,7 +66,11 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionStay: function (other, self) {
-        // console.log('当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用');
+        let otherTag = other.tag;
+        let selfTag = self.tag;
+
+        if ([0, 1, 2, 3, 8, 9].includes(otherTag))
+            Global.tank.movablePath.remove(selfTag - 40);
     },
     /**
      * 当碰撞结束后调用
@@ -81,10 +78,16 @@ cc.Class({
      * @param  {Collider} self  产生碰撞的自身的碰撞组件
      */
     onCollisionExit: function (other, self) {
-        // console.log(other.node.name);
-        if (other.node.name == 'enemyTank' && this.collisionType == 1)
-            Global.tank.isCollision = false;
+        let otherTag = other.tag;
+        let selfTag = self.tag;
 
+        if ([0, 1, 2, 3, 8, 9].includes(otherTag)) {
+            // 40,41,42,43，启用对应行走的方向
+            let p = selfTag - 40;
+            if (!Global.tank.movablePath.includes(p)) {
+                Global.tank.movablePath.push(p);
+            }
+        }
     },
     /**
      * 设置坦克行走方向
@@ -92,7 +95,27 @@ cc.Class({
      */
     setMovePath (index) {
         thisTank.movePath = index;
-        thisTank.tankNode.spriteFrame = this.tankTexture[thisTank.movePath];
+        thisTank.updateSkin();
     },
-    // update (dt) {},
+    /**
+     * 更新皮肤
+     */
+    updateSkin () {
+        this.getComponent(cc.Sprite).spriteFrame = this.tankTexture[((this.level * 4) - 4) + thisTank.movePath];
+    },
+    /**
+     * 升级坦克
+     */
+    upgradeTank () {
+        if (++this.level > 3)
+            this.level = 1;
+
+        if (this.level == 2) {
+            Global.tank.speed *= 2;
+        }
+        this.updateSkin();
+    },
+    /*update (dt) {
+
+    },*/
 });

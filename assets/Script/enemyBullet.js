@@ -60,7 +60,7 @@ cc.Class({
      */
     onCollisionEnter: function (other, self) {
         this.node.destroy();
-        if (other.node.name == 'enemyTank') {
+        if (other.node.name == 'tank_' || [9].includes(other.tag)) {
             other.node.destroy();
         }
     },

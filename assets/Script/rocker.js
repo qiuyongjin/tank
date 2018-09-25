@@ -32,10 +32,6 @@ cc.Class({
             type: cc.Node
         },
         /**
-         * 移动速度
-         */
-        moveSpeed: 200,
-        /**
          * 移动坐标
          */
         moveXY: cc.v2(),
@@ -47,8 +43,6 @@ cc.Class({
             type: cc.Prefab
         }
     },
-
-    // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
@@ -101,9 +95,9 @@ cc.Class({
             tank.setMovePath(_this.movePath);
 
             // 更新坦克全局属性
-            if (Global.tank.movePath != _this.movePath) {
+            /*if (Global.tank.movePath != _this.movePath) {
                 Global.tank.isCollision = false;
-            }
+            }*/
             Global.tank.movePath = _this.movePath;
 
             /*判断距离*/
@@ -155,9 +149,9 @@ cc.Class({
             tank.setMovePath(_this.movePath);
 
             // 更新坦克全局属性
-            if (Global.tank.movePath != _this.movePath) {
+            /*if (Global.tank.movePath != _this.movePath) {
                 Global.tank.isCollision = false;
-            }
+            }*/
             Global.tank.movePath = _this.movePath;
         }, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, (event) => {
@@ -172,15 +166,15 @@ cc.Class({
         }, this);
     },
     update (dt) {
-        if (Global.tank.isMove && !Global.tank.isCollision) {
+        if (Global.tank.isMove /*&& !Global.tank.isCollision*/ && Global.tank.movablePath.includes(this.movePath)) {
             if (this.movePath == MOVE_PATH.top) {
-                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y - (this.moveSpeed * dt));
+                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y - (Global.tank.speed * dt));
             } else if (this.movePath == MOVE_PATH.right) {
-                this.moveXY = cc.v2(this.gameMap.x - (this.moveSpeed * dt), this.gameMap.y);
+                this.moveXY = cc.v2(this.gameMap.x - (Global.tank.speed * dt), this.gameMap.y);
             } else if (this.movePath == MOVE_PATH.down) {
-                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y + (this.moveSpeed * dt));
+                this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y + (Global.tank.speed * dt));
             } else if (this.movePath == MOVE_PATH.left) {
-                this.moveXY = cc.v2(this.gameMap.x + (this.moveSpeed * dt), this.gameMap.y);
+                this.moveXY = cc.v2(this.gameMap.x + (Global.tank.speed * dt), this.gameMap.y);
             }
             this.gameMap.setPosition(this.moveXY);
         }
