@@ -80,7 +80,7 @@ cc.Class({
             let item = {};
             item.id = i;
             item.index = i;
-            item.headPortrait = "http://localhost:7456/res/import/91/91b1fd4a-adf5-43c0-afd2-115b80c93107.jpg";
+            item.headPortrait = "http://192.168.43.166:7456/res/import/91/91b1fd4a-adf5-43c0-afd2-115b80c93107.jpg";
             item.nick = name + i.toString();
             item.score = (Math.floor(1000 / i)).toString();
             this.items.push(item);
@@ -93,34 +93,44 @@ cc.Class({
             item.getComponent('ranking_item').init({
                 id: data.id,
                 index: i,
-                headPortrait: data.headPortrait,
+                // headPortrait: data.headPortrait,
                 nick: data.nick,
                 score: data.score
             });
         }
         this.node.getChildByName('item_list').getComponent(cc.ScrollView).scrollToTop();
     },
+    /**
+     * 获取Atlas中的一张图
+     * @param spriteFrameName
+     */
+    getSpriteAtlas (atlasName, spriteFrameName, callBack) {
+        cc.loader.loadRes(atlasName, cc.SpriteAtlas, function (err, atlas) {
+            let sf = atlas.getSpriteFrame(spriteFrameName);
+            callBack(sf);
+        });
+    },
     bindEvent () {
         let _this = this;
         // 好友排行
         this.friendRankingBtn.on(cc.Node.EventType.TOUCH_END, (event) => {
-            cc.loader.loadRes("nav_friend_sel", cc.SpriteFrame, function (err, spriteFrame) {
-                _this.friendRankingBtn.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            _this.getSpriteAtlas('btn', 'nav_friend_sel', (sf) => {
+                _this.friendRankingBtn.getComponent(cc.Sprite).spriteFrame = sf;
             });
-            cc.loader.loadRes("nav_contry_unsel", cc.SpriteFrame, function (err, spriteFrame) {
-                _this.nationalRankingBtn.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            _this.getSpriteAtlas('btn', 'nav_contry_unsel', (sf) => {
+                _this.nationalRankingBtn.getComponent(cc.Sprite).spriteFrame = sf;
             });
+
             _this.getItemData('好友排行');
         }, this);
 
         // 全国排行
         this.nationalRankingBtn.on(cc.Node.EventType.TOUCH_END, (event) => {
-
-            cc.loader.loadRes("nav_friend_unsel", cc.SpriteFrame, function (err, spriteFrame) {
-                _this.friendRankingBtn.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            _this.getSpriteAtlas('btn', 'nav_friend_unsel', (sf) => {
+                _this.friendRankingBtn.getComponent(cc.Sprite).spriteFrame = sf;
             });
-            cc.loader.loadRes("nav_contry_sel", cc.SpriteFrame, function (err, spriteFrame) {
-                _this.nationalRankingBtn.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            _this.getSpriteAtlas('btn', 'nav_contry_sel', (sf) => {
+                _this.nationalRankingBtn.getComponent(cc.Sprite).spriteFrame = sf;
             });
             _this.getItemData('全国排行');
         }, this);

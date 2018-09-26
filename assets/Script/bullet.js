@@ -40,7 +40,7 @@ cc.Class({
          */
         hitSound: {
             default: null,
-            type: cc.AudioSource
+            type: cc.AudioClip
         },
         enemyTank: {
             default: null,
@@ -49,7 +49,7 @@ cc.Class({
     },
 
     onLoad () {
-        this.hitSound = this.getComponent(cc.AudioSource);
+
     },
 
     start () {
@@ -82,14 +82,19 @@ cc.Class({
      */
     onCollisionEnter: function (other, self) {
         this.node.active = false;
-        this.hitSound.play();
-        if ([9].includes(other.tag)) {
+        this.playHitSound();
+        if (other.tag == 9) {
             other.node.destroy();
         }
-
-        setTimeout(() => {
+    },
+    /**
+     * 调用声音引擎播放声音
+     */
+    playHitSound: function () {
+        let audioID = cc.audioEngine.playEffect(this.hitSound, false, 1);
+        cc.audioEngine.setFinishCallback(audioID, () => {
             this.node.destroy();
-        }, 1000);
+        });
     },
     update (dt) {
         let s = this.speed * dt;

@@ -100,7 +100,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "57kY6wvO5BubmTqabR1u/p"
+    "_id": "8dzT/m+xNP9aA0hIzvy3Wu"
   },
   {
     "__type__": "cc.BoxCollider",
@@ -121,7 +121,7 @@
       "width": 80,
       "height": 80
     },
-    "_id": "57BDbzMddInb+T0c7DGVkg"
+    "_id": "97zfJFJrJFq5ZgZNlG7dRY"
   },
   {
     "__type__": "cc.PrefabInfo",

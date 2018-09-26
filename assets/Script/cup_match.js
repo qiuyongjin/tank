@@ -45,9 +45,9 @@ cc.Class({
         /**
          * 获取头像
          */
-        base.getAvatar((texture) => {
+        /*base.getAvatar((texture) => {
             this.node.getChildByName('pic').getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture)
-        });
+        });*/
 
         for (let i = 0; i < 10; ++i) {
             let item = cc.instantiate(this.prefab);

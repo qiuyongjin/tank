@@ -47,7 +47,7 @@ cc.Class({
         let otherTag = other.tag;
         let selfTag = self.tag;
 
-        if ([0, 1, 2, 3, 8, 9].includes(otherTag)) {
+        if (Global.arrCheck([0, 1, 2, 3, 8, 9], otherTag)) {
             // 40,41,42,43，禁止对应行走的方向
             Global.tank.movablePath.remove(selfTag - 40);
         }
@@ -69,7 +69,7 @@ cc.Class({
         let otherTag = other.tag;
         let selfTag = self.tag;
 
-        if ([0, 1, 2, 3, 8, 9].includes(otherTag))
+        if (Global.arrCheck([0, 1, 2, 3, 8, 9], otherTag))
             Global.tank.movablePath.remove(selfTag - 40);
     },
     /**
@@ -81,10 +81,10 @@ cc.Class({
         let otherTag = other.tag;
         let selfTag = self.tag;
 
-        if ([0, 1, 2, 3, 8, 9].includes(otherTag)) {
+        if (Global.arrCheck([0, 1, 2, 3, 8, 9], otherTag)) {
             // 40,41,42,43，启用对应行走的方向
             let p = selfTag - 40;
-            if (!Global.tank.movablePath.includes(p)) {
+            if (!Global.arrCheck(Global.tank.movablePath, p)) {
                 Global.tank.movablePath.push(p);
             }
         }

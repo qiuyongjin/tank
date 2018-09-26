@@ -29,9 +29,9 @@ cc.Class({
         } else {
             this.indexIcon.spriteFrame = this.indexIconItem[data.index];
         }
-        base.getAvatar((texture) => {
+        /*base.getAvatar((texture) => {
             this.avatar.spriteFrame = new cc.SpriteFrame(texture);
-        });
+        });*/
         this.cupIcon.spriteFrame = this.cupIconItem[(data.index > 2) ? 2 : data.index];
         this.nick.string = data.nick;
         this.score.string = data.score.toString();

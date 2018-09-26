@@ -58,6 +58,17 @@ window.Global = {
     rd (n, m) {
         let c = m - n + 1;
         return Math.floor(Math.random() * c + n);
+    },
+    /**
+     * 检查数组是否包含某个值
+     */
+    arrCheck (arr, val) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] == val) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 

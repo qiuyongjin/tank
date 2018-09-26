@@ -74,6 +74,10 @@ cc.Class({
     },
     onLoad: function () {
         // this.loading.active = true;
+        // 打开调试
+        wx.setEnableDebug({
+            enableDebug: true
+        })
     },
     start () {
         /*this.label.node.on(cc.Node.EventType.TOUCH_START, function (event) {
@@ -82,9 +86,10 @@ cc.Class({
         }, this);*/
 
         let num = 0;
+        let _this = this;
         let si = setInterval(() => {
-            this.newEnemyTank();
-            if (++num >= 4 )
+            _this.newEnemyTank();
+            if (++num >= 4)
                 clearInterval(si);
         }, 300);
 
@@ -96,12 +101,6 @@ cc.Class({
      * 初始化地图
      */
     initMap () {
-        let position = [
-            cc.v2(-465, 470),
-            cc.v2(-155, 470),
-            cc.v2(155, 470),
-            cc.v2(465, 470)
-        ];
         map.map((val, y) => {
             val.map((item, x) => {
                 if (item != 0) {
@@ -139,11 +138,9 @@ cc.Class({
      */
     onCollisionEnter (other, self) {
         // 判断坦克是否碰到边缘
-        if (other.node._name == 'tank') {
-            // 偏移
-            let offset = 6;
+        /*if (other.node._name == 'tank') {
             Global.tank.isCollision = true;
-        }
+        }*/
     },
     /**
      * 当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用
@@ -152,7 +149,6 @@ cc.Class({
      */
     onCollisionStay: function (other, self) {
         // console.log('当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用');
-        // console.log(other.node);
     },
     /**
      * 生产敌方坦克

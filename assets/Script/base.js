@@ -22,7 +22,7 @@ let base = {
      * 获取头像
      */
     getAvatar (callBack) {
-        cc.loader.load("http://192.168.43.166:7456/res/import/91/91b1fd4a-adf5-43c0-afd2-115b80c93107.jpg", function (err, texture) {
+        cc.loader.load("http://192.168.43.166:7456/res/import/f6/f65c0e73-fe33-487b-932f-ea4fe7927b3a.png", function (err, texture) {
             callBack(texture);
         });
     },

@@ -69,7 +69,7 @@ cc.Class({
             this.ctrlMove();
         }, 5000);
 
-        this.indirectLaunch();
+        this.launchBullet();
     },
     /**
      * 当碰撞产生的时候调用
@@ -80,7 +80,7 @@ cc.Class({
         let otherTag = other.tag;
         let selfTag = self.tag;
 
-        if ([0, 1, 2, 3, 8, 9, 40, 41, 42, 43].includes(otherTag)) {
+        if (otherTag == 0 || otherTag == 1 || otherTag == 2 || otherTag == 3 || otherTag == 8 || otherTag == 9 || otherTag == 40 || otherTag == 41 || otherTag == 42 || otherTag == 43) {
             // 50,51,52,53，禁止对应行走的方向
             this.movablePath.remove(selfTag - 50);
             // 更新坦克行走方向
@@ -102,10 +102,9 @@ cc.Class({
      */
     onCollisionStay: function (other, self) {
         let otherTag = other.tag;
-        let selfTag = self.tag;
 
-        if ([0, 1, 2, 3, 8, 9].includes(otherTag))
-            this.movablePath.remove(selfTag - 50);
+        if (Global.arrCheck([0, 1, 2, 3, 8, 9], otherTag))
+            this.movablePath.remove(self.tag - 50);
     },
     /**
      * 当碰撞结束后调用
@@ -114,11 +113,12 @@ cc.Class({
      */
     onCollisionExit: function (other, self) {
         let otherTag = other.tag;
-        let selfTag = self.tag;
-        if ([0, 1, 2, 3, 8, 9, 40, 41, 42, 43].includes(otherTag)) {
+
+        if (Global.arrCheck([0, 1, 2, 3, 8, 9, 40, 41, 42, 43], otherTag)) {
             // 50,51,52,53，启用对应行走的方向
-            let p = selfTag - 50;
-            if (!this.movablePath.includes(p)) {
+            let p = self.tag - 50;
+
+            if (!Global.arrCheck(this.movablePath, p)) {
                 this.movablePath.push(p);
             }
         }
@@ -166,15 +166,10 @@ cc.Class({
             speed: this.moveSpeed
         });
         this.node.parent.addChild(newBullet);
-    },
-    /**
-     * 间接发射子弹
-     */
-    indirectLaunch () {
-        this.launchBullet();
-        let num = Global.rd(1000, 3000);
+
+        let num = Global.rd(3000, 5000);
         setTimeout(() => {
-            this.indirectLaunch();
+            this.launchBullet();
         }, num);
     },
     /**
@@ -188,6 +183,13 @@ cc.Class({
             Global.tank.speed *= 2;
         }
         this.updateSkin();
+    },
+    /**
+     * 动画播放完成
+     */
+    onAnimCompleted () {
+        // this.newEnemyTank();
+        this.node.destroy();
     },
     /**
      * 生产敌方坦克
@@ -206,15 +208,8 @@ cc.Class({
         });
         Global.gameMap.addChild(eTank);
     },
-    /**
-     * 动画播放完成
-     */
-    onAnimCompleted () {
-        this.newEnemyTank();
-        this.node.destroy();
-    },
     update (dt) {
-        if (this.isMove && this.movablePath.includes(this.movePath)) {
+        if (this.isMove && Global.arrCheck(this.movablePath, this.movePath)) {
             if (this.movePath == MOVE_PATH.top) {
                 this.node.y += this.moveSpeed * dt;
             } else if (this.movePath == MOVE_PATH.right) {

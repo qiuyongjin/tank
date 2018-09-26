@@ -166,7 +166,7 @@ cc.Class({
         }, this);
     },
     update (dt) {
-        if (Global.tank.isMove /*&& !Global.tank.isCollision*/ && Global.tank.movablePath.includes(this.movePath)) {
+        if (Global.tank.isMove /*&& !Global.tank.isCollision*/ && Global.arrCheck(Global.tank.movablePath, this.movePath)) {
             if (this.movePath == MOVE_PATH.top) {
                 this.moveXY = cc.v2(this.gameMap.x, this.gameMap.y - (Global.tank.speed * dt));
             } else if (this.movePath == MOVE_PATH.right) {

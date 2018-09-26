@@ -32,9 +32,9 @@ cc.Class({
         }
         this.cupIcon.spriteFrame = this.cupIconItem[(data.index > 2) ? 2 : data.index];
         // 头像
-        this.getRemoteImg(data.headPortrait, (texture) => {
+        /*this.getRemoteImg(data.headPortrait, (texture) => {
             this.headPortrait.spriteFrame = new cc.SpriteFrame(texture);
-        });
+        });*/
         this.nick.string = data.nick;
         this.score.string = data.score;
         this.binEvent();

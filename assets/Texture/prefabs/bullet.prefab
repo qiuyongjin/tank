@@ -109,7 +109,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "f4Z11U1ZxMpr25xmkE9BZ8"
+    "_id": "4cRs4ab81AN75Op+YdIE8C"
   },
   {
     "__type__": "d0f65gTmBhNCJ/yYaLcTnjZ",
@@ -123,11 +123,13 @@
     "speed": 200,
     "range": 300,
     "distance": 0,
-    "hitSound": null,
+    "hitSound": {
+      "__uuid__": "b7f8d1a9-2209-4983-ab7a-ecd63f3b4cfd"
+    },
     "enemyTank": {
       "__uuid__": "f58859e8-9dc5-425d-ab1d-fad719e33d9f"
     },
-    "_id": "10u8YOzdhJfokzdSzHNc+c"
+    "_id": "ecr7L2SZJPALD5pBpd+TF9"
   },
   {
     "__type__": "cc.BoxCollider",
@@ -148,7 +150,7 @@
       "width": 11,
       "height": 15
     },
-    "_id": "7cXrikxmFEt6UgdSn27vfW"
+    "_id": "07u/Tk7s9H+Ld9WnvajYHU"
   },
   {
     "__type__": "cc.AudioSource",
@@ -166,7 +168,7 @@
     "_loop": false,
     "playOnLoad": false,
     "preload": true,
-    "_id": "bdxz4LTEdGGq46iZiZiZVA"
+    "_id": "5781JpbydMuLt6QBLq1Ftc"
   },
   {
     "__type__": "cc.AudioSource",
@@ -182,9 +184,9 @@
     "_volume": 0.3,
     "_mute": false,
     "_loop": false,
-    "playOnLoad": true,
+    "playOnLoad": false,
     "preload": false,
-    "_id": "a6QoNBnLpOL6mre3RXOU7Y"
+    "_id": "90Q25+UaxDX6oTWhohJYWH"
   },
   {
     "__type__": "cc.PrefabInfo",
